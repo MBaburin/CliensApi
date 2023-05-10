@@ -3,6 +3,7 @@ package com.example.tt.services;
 import com.example.tt.entity.ClientEntity;
 import com.example.tt.exeptions.ClientAlreadyExistException;
 import com.example.tt.exeptions.ClientNotFoundException;
+import com.example.tt.model.ClientModel;
 import com.example.tt.repository.ClientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,12 @@ public class ClientService {
         return clientRepo.save(client);
     }
 
-    public ClientEntity getClient(Long id) throws ClientNotFoundException {
+    public ClientModel getClient(Long id) throws ClientNotFoundException {
         ClientEntity client = clientRepo.findById(id).get();
         if (client == null) {
             throw new ClientNotFoundException("Пользователь с таким именем не найден");
         }
-        return client;
+        return ClientModel.toModel(client);
     }
 
     public Long deleteClient(Long id) {
